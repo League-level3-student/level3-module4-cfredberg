@@ -6,7 +6,23 @@ public class TestMatchingBrackets {
      * has a matching closing bracket
      */
     public static boolean doBracketsMatch(String b) {
-
+    	int openCount = 0;
+    	int closeCount = 0;
+    	char firstChar = b.toCharArray()[0];
+    	char lastChar = b.toCharArray()[b.length()-1];
+    	for (char chr : b.toCharArray()) {
+    		if (chr == '{') {
+    			openCount++;
+    		}else {
+    			closeCount++;
+    		}
+    	}
+    	if (openCount == closeCount) {
+    		if (firstChar == '{' && lastChar == '}') {
+    			return true;
+    		}
+    	}
+    	
         return false;
     }
 }
