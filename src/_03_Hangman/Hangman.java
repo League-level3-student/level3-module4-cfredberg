@@ -16,6 +16,7 @@ public class Hangman implements KeyListener {
 	JFrame frame = new JFrame("Hangman");
 	JPanel panel = new JPanel();
 	JLabel lives = new JLabel();
+	String tempWord;
 	
 	public void run() {
 		frame.setVisible(true);
@@ -30,8 +31,12 @@ public class Hangman implements KeyListener {
 			if (stack.contains(randomLine)) {
 				i--;
 			}else {
-				stack.push(Utilities.readRandomLineFromFile(randomLine));
+				stack.push(randomLine);
 			}
+		}
+		tempWord = stack.pop();
+		for (int i = 0; i < tempWord.length(); i++) {
+			
 		}
 	}
 
