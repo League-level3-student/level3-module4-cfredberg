@@ -37,29 +37,72 @@ public class Hangman implements KeyListener {
 				stack.push(randomLine);
 			}
 		}
-		tempWord = stack.pop();
-		for (int i = 0; i < tempWord.length(); i++) {
-			displayWord = displayWord + "_";
-		}
 		
-		updatePanel();
-	}
-	
-	public void updatePanel() {
-		dLives.setText("Lives: " + lives);
-		dWord.setText(displayWord);
+		popWord();
+		
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(2,1));
 		panel.add(dLives);
 		panel.add(dWord);
 		frame.add(panel);
+		
+		updatePanel();
+	}
+	
+	public void popWord() {
+		tempWord = stack.pop();
+		System.out.println(tempWord);
+		for (int i = 0; i < tempWord.length(); i++) {
+			displayWord = displayWord + "_ ";
+		}
+	}
+	
+	public void updatePanel() {
+		dLives.setText("Lives: " + lives);
+		dWord.setText(displayWord);
+		System.out.println(displayWord);
 		frame.pack();
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		boolean updated = false;
+		int filled = 0;
+		for (int i = 0; i < tempWord.length(); i++) {
+			if (e.getKeyChar() == tempWord.charAt(i)) {
+				String tdWord = displayWord;
+				displayWord = "";
+				updated = true;
+				filled++;
+				for (int j = 0; j < tempWord.length()*2; j++) {
+					if (tdWord.charAt(i) == ' ') {
+						displayWord = displayWord + " ";
+					}else {
+						if (j == i) {
+							displayWord = displayWord + tempWord.charAt(i);
+						}else {
+							displayWord = displayWord + tdWord.charAt(j);
+						}
+					}
+				}
+				i = tempWord.length();
+			}
+		}
+		if (!updated) {
+			lives = lives - 1;
+			if (lives <= 0) {
+				JOptionPane.showMessageDialog(null, "): Game Over :(");
+				JOptionPane.showMessageDialog(null, "The word was: " + tempWord);
+				System.exit(0);
+			}
+		}else {
+			if (filled == tempWord.length()) {
+				JOptionPane.showMessageDialog(null, "Good Job...");
+				JOptionPane.showMessageDialog(null, "You Got a Word!!!");
+			}
+		}
+		updatePanel();
 	}
 
 	@Override
@@ -71,25 +114,6 @@ public class Hangman implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		boolean updated = false;
-		for (int i = 0; i < tempWord.length(); i++) {
-			if (e.getKeyChar() == tempWord.charAt(i)) {
-				String tdWord = displayWord;
-				displayWord = "";
-				updated = true;
-				for (int j = 0; j < tempWord.length(); j++) {
-					if (j == i) {
-						displayWord = displayWord + tempWord.charAt(i);
-					}else {
-						displayWord = displayWord + tdWord.charAt(j);
-					}
-				}
-				i = tempWord.length();
-			}
-		}
-		if (!updated) {
-			lives = lives - 1;
-		}
-		updatePanel();
+		
 	}
 }
