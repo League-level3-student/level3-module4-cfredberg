@@ -53,13 +53,14 @@ public class Hangman implements KeyListener {
 		tempWord = stack.pop();
 		System.out.println(tempWord);
 		for (int i = 0; i < tempWord.length(); i++) {
-			displayWord = displayWord + "_ ";
+			displayWord = displayWord + "_";
 		}
 	}
 	
 	public void updatePanel() {
 		dLives.setText("Lives: " + lives);
 		dWord.setText(displayWord);
+		System.out.println("Lives: " + lives);
 		System.out.println(displayWord);
 		frame.pack();
 	}
@@ -75,15 +76,11 @@ public class Hangman implements KeyListener {
 				displayWord = "";
 				updated = true;
 				filled++;
-				for (int j = 0; j < tempWord.length()*2; j++) {
-					if (tdWord.charAt(i) == ' ') {
-						displayWord = displayWord + " ";
+				for (int j = 0; j < tempWord.length(); j++) {
+					if (j == i) {
+						displayWord = displayWord + tempWord.charAt(i);
 					}else {
-						if (j == i) {
-							displayWord = displayWord + tempWord.charAt(i);
-						}else {
-							displayWord = displayWord + tdWord.charAt(j);
-						}
+						displayWord = displayWord + tdWord.charAt(j);
 					}
 				}
 				i = tempWord.length();
